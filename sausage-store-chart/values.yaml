@@ -5,9 +5,8 @@ global:
   ###  name: vault
   ###  vaultToken: someToken
 
-
 frontend:
-### В чарте frontend отсутствуют некоторые важные файлы. Поймите какие и опишите их.
+  ### В чарте frontend отсутствуют некоторые важные файлы. Поймите какие и опишите их.
   replicas: 1
   revisionHistoryLimit: 15
   strategy:
@@ -19,7 +18,7 @@ frontend:
     path: /
     pathType: Prefix
   containerPort: 80
-  image: YOUR_DOCKERHUB/sausage-frontend:latest
+  image: YOUR_DOCKERHUB/sausage-frontend:{{ .Chart.AppVersion }}
   resources:
     requests:
       memory: "128Mi"
@@ -46,7 +45,7 @@ backend:
   replicas: 1
   strategy:
   ### Опишите стратегию RollingUpdate для бэкенда
-  image: YOUR_DOCKERHUB/sausage-backend:latest
+  image: YOUR_DOCKERHUB/sausage-backend:{{ .Chart.AppVersion }}
   imagePullPolicy: Always
   resources:
     requests:
@@ -64,7 +63,7 @@ backend:
 backend-report:
 ### Опишите значения для backend-report
 ### Приложение должно использовать стратегию Recreate
-### Приложение использует переменную PORT - порт, на котором оно запустится и DB - Uri-подключение к mongodb. 
+### Приложение использует переменную PORT - порт, на котором оно запустится и DB - Uri-подключение к mongodb.
 ### DB положите в Secret, PORT в ConfigMap
 ### Опишите HPA для backend-report
 
