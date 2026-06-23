@@ -13,12 +13,15 @@ frontend:
     type: Recreate
   service:
     port: 80
+    targetPort: 80
   ingress:
-    host: YOUR_STUDENT_HOSTNAME.students-projects.ru # Корректный домен будет указан в задании
+    host: front-egorov.2sem.students-projects.ru # Корректный домен будет указан в задании
+    className: nginx
     path: /
     pathType: Prefix
+    tlsSecretName: 2sem-students-projects-wildcard-secret
   containerPort: 80
-  image: YOUR_DOCKERHUB/sausage-frontend:{{ .Chart.AppVersion }}
+  image: krosy/sausage-frontend:{{ .Chart.AppVersion }}
   resources:
     requests:
       memory: "128Mi"
@@ -63,7 +66,7 @@ backend:
 backend-report:
   image: krosy/sausage-backend-report:latest
   replicas: 1
-  revisionHistoryLimit: 12
+  revisionHistoryLimit: 15
   containerPort: 8080
   env:
     port: "8080"
